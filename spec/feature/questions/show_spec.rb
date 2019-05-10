@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 feature 'User can view the question and the answers to this question' do
-  given(:question) { create(:question) }
+  given(:user) { create(:user) }
+  given(:question) { create(:question, author: user) }
   given(:answers) { create_list(:answer, 3, question: question) }
 
   scenario 'User can view the question and the answers to this question' do
