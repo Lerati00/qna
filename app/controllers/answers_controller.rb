@@ -4,12 +4,22 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.new(answer_params)
+    @answer.author = current_user
 
     if @answer.save
       redirect_to question_path(@question), notice: 'Your answer successfully created.'
     else
       render 'questions/show'
     end
+  end
+
+  def destroy
+    @answer = Answer.find(params[:id])
+    if current_user.author_of?(@answer)
+      @answer.destroy
+      message = { notice: 'Your answer succesfully deleted.' }
+    end
+    redirect_to @answer.question, message
   end
 
   private
