@@ -65,6 +65,11 @@ RSpec.describe AnswersController, type: :controller do
       it 'does not delete the answer' do
         expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
       end
+
+      it 'have 403 staus' do
+        delete :destroy, params: { id: answer }
+        expect(response).to have_http_status(403) 
+      end
     end
   end
 end

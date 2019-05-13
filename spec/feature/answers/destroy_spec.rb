@@ -23,13 +23,13 @@ feature 'Author can delete his answer' do
       visit question_path(question)
 
       expect(page).to have_content(answer.body)
-      expect(page).to_not have_content 'Delete Answer'
+      expect(page).to_not have_link 'Delete Answer'
     end
   end
 
   scenario 'A non-authenticated user tries to delete the answer' do
     visit question_path(question)
     expect(page).to have_content(answer.body)
-    expect(page).to_not have_content 'Delete Answer'
+    expect(page).to_not have_link 'Delete Answer'
   end
 end

@@ -8,6 +8,6 @@ class User < ApplicationRecord
   has_many  :answers, foreign_key: 'author_id', inverse_of: :author
 
   def author_of?(resource)
-    self == resource.author
+    self.id == resource.author_id
   end
 end
