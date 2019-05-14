@@ -38,7 +38,7 @@ class QuestionsController < ApplicationController
     if current_user.author_of?(@question)
       @question.destroy
       redirect_to questions_path, notice: 'Your question succesfully deleted.'
-    else 
+    else
       head :forbidden
     end
   end
