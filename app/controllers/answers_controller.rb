@@ -5,12 +5,13 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(answer_params)
     @answer.author = current_user
+    @answer.save
+  end
 
-    if @answer.save
-      redirect_to question_path(@question), notice: 'Your answer successfully created.'
-    else
-      render 'questions/show'
-    end
+  def update
+    @answer = Answer.find(params[:id])
+    @answer.update(answer_params)
+    @question = @answer.question
   end
 
   def destroy
@@ -18,7 +19,7 @@ class AnswersController < ApplicationController
     if current_user.author_of?(@answer)
       @answer.destroy
       redirect_to @answer.question, notice: 'Your answer succesfully deleted.'
-    else 
+    else
       head :forbidden
     end
   end
