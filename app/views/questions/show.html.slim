@@ -1,8 +1,5 @@
-h1= @question.title
-p= @question.body
-- if current_user&.author_of?(@question)
-  p= link_to 'Delete', question_path(@question), method: :delete, data: { confirm: 'Are you sure?' }
-
+.question
+  = render @question
 
 .answers
   = render @question.answers
@@ -11,6 +8,6 @@ p= @question.body
   = render 'shared/errors', resource: @answer
 
 = form_with model: [@question, @answer] do |f|
-  = f.label :body, 'Your answers'
+  = f.label :body, 'Your answer'
   = f.text_area :body
   = f.submit 'Create'
