@@ -18,11 +18,13 @@ feature 'User can edit his answer', %q{
     end
   end
   
-  describe 'Authenticated user' do
-    scenario 'edits his answer', js: true do 
+  describe 'Authenticated user edits his answer' do
+    background do
       sign_in(author)
       visit question_path(question)
-
+    end
+    
+    scenario 'Edit answer', js: true do 
       within '.answers' do
         click_on 'Edit' 
         fill_in 'Your answer', with: 'edited answer'
@@ -33,8 +35,25 @@ feature 'User can edit his answer', %q{
         expect(page).to_not have_selector 'textarea'
       end 
     end
-    scenario 'edits his answer with error'
-    scenario 'tries to edit other user`s answers'
+
+    scenario 'with error', js: true do
+      within '.answers' do
+        click_on 'Edit' 
+        fill_in 'Your answer', with: ''
+        click_on 'Save'
+        expect(page).to have_content "Body can't be blank"       
+      end 
+    end
   end
+    
+  scenario 'Authenticated user tries to edit other user`s answers' do
+    sign_in(create(:user))
+    visit question_path(question)
+    
+    within '.answers' do
+      expect(page).to_not have_link('Edit')
+    end
+  end
+  
 
 end

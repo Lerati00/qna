@@ -36,7 +36,7 @@ feature 'User can edit his question', %q{
       end
     end
 
-    scenario 'with error', js: true do
+    scenario 'with errors', js: true do
       within '.question' do
         click_on 'Edit'
         fill_in 'Title', with: ''
@@ -47,7 +47,7 @@ feature 'User can edit his question', %q{
     end
   end
 
-  scenario 'tries to edit other user`s question' do
+  scenario 'Authenticated user tries to edit other user`s question' do
     sign_in(create(:user))
     visit question_path(question)
 
