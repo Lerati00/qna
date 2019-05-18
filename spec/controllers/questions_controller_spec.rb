@@ -120,11 +120,11 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'user tries the delete his question' do
       it 'deletes the question' do
-        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+        expect { delete :destroy, params: { id: question }, format: :js}.to change(Question, :count).by(-1)
       end
 
       it 'redirects to index' do
-        delete :destroy, params: { id: question }
+        delete :destroy, params: { id: question }, format: :js
         expect(response).to redirect_to questions_path
       end
     end
@@ -133,11 +133,11 @@ RSpec.describe QuestionsController, type: :controller do
       before { sign_in(create(:user)) }
 
       it 'does not delete the question' do
-        expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
+        expect { delete :destroy, params: { id: question }, format: :js }.to_not change(Question, :count)
       end
 
       it 'have 403 status' do
-        delete :destroy, params: { id: question }
+        delete :destroy, params: { id: question }, format: :js
         expect(response).to have_http_status(403) 
       end
    
