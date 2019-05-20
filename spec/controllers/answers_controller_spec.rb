@@ -84,18 +84,18 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { sign_in(user) }
+    before { login(user) }
 
     let!(:answer) { create(:answer, question: question, author: user) }
 
     context 'User tries to delete his answer' do
       it 'deletes the answer' do
-        expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, params: { id: answer }, format: :js }.to change(Answer, :count).by(-1)
       end
 
-      it 'redirects to questions/show view' do
-        delete :destroy, params: { id: answer }
-        expect(response).to redirect_to question_path(question)
+      it 'renders destroy view' do
+        delete :destroy, params: { id: answer }, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
@@ -103,12 +103,44 @@ RSpec.describe AnswersController, type: :controller do
       before { sign_in(create(:user)) }
 
       it 'does not delete the answer' do
-        expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
+        expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
       end
 
-      it 'have 403 staus' do
-        delete :destroy, params: { id: answer }
-        expect(response).to have_http_status(403) 
+      it 'renders destroy view' do
+        delete :destroy, params: { id: answer }, format: :js
+        expect(response).to render_template :destroy
+      end
+    end
+  end
+
+  describe 'PATCH #best' do
+    context 'User set best answer to his question' do
+      before { sign_in(user) }
+  
+      it 'choose the answer as the best' do
+        patch :best, params: { id: answer }, format: :js
+        answer.reload
+        expect(answer).to be_best
+      end
+
+      it 'renders best view' do
+        patch :best, params: { id: answer }, format: :js
+        expect(response).to render_template :best
+      end
+    end
+    
+    context "The user asks the best answer to someone else's question" do
+      before { sign_in(create(:user)) }
+  
+      it 'tries choose the answer as the best' do
+        patch :best, params: { id: answer }, format: :js
+        answer.reload
+        expect(answer).to_not be_best
+      end
+
+      it 'renders best view' do
+        patch :best, params: { id: answer }, format: :js
+        expect(response).to render_template :best
       end
     end
   end
