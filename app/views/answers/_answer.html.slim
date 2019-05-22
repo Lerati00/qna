@@ -3,6 +3,12 @@
     - if answer.best?
         b= '(Best)'
     p= answer.body
+
+    - if answer.files.attached?
+      p
+        - answer.files.each do |file|
+          = link_to file.filename.to_s, url_for(file)
+
     - if current_user&.author_of?(answer.question) 
       p= link_to 'Make the best', best_answer_path(answer), method: :patch, remote: true, class: 'best-answer-link', data: { answer_id: answer.id }
       
