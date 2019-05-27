@@ -1,14 +1,11 @@
-h1= @question.title
-p= @question.body
-- if current_user&.author_of?(@question)
-  p= link_to 'Delete', question_path(@question), method: :delete, data: { confirm: 'Are you sure?' }
+.question
+  = render @question
+.answers
+  = render @question.answers.order('answers.best DESC')
 
-h2= 'Answers list'
-
-= render @question.answers
-
-= form_with model: [@question, @answer], local: true do |f|
-  = render 'shared/errors', resource: @answer
-  = f.label :body
+= form_with model: [@question, @answer] do |f|
+  = f.label :body, 'Your answer'
   = f.text_area :body
-  = f.submit 'Submit answer'
+  = f.submit 'Create'
+
+.new-answer-errors

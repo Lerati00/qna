@@ -67,7 +67,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
 
-      it 're-renders new view' do
+      it 'renders update view' do
         post :create, params: { question: attributes_for(:question, :invalid) }
         expect(response).to render_template :new
       end
@@ -79,12 +79,12 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with valid attributes' do
       it 'assigns the requested question to @question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
+        patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
         expect(assigns(:question)).to eq question
       end
 
       it 'changes question attributes' do
-        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
         question.reload
 
         expect(question.title).to eq 'new title'
@@ -92,13 +92,13 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'redirects to updated question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
-        expect(response).to redirect_to question
+        patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+        expect(response).to render_template :update
       end
     end
 
     context 'with invalid attributes' do
-      before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
+      before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js }
       let(:title) { question.title }
       it 'does not change question' do
         question.reload
@@ -107,8 +107,8 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.body).to eq 'MyText'
       end
 
-      it 're-renders edit view' do
-        expect(response).to render_template :edit
+      it 'renders update view' do
+        expect(response).to render_template :update
       end
     end
   end
@@ -120,11 +120,11 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'user tries the delete his question' do
       it 'deletes the question' do
-        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+        expect { delete :destroy, params: { id: question }, format: :js}.to change(Question, :count).by(-1)
       end
 
       it 'redirects to index' do
-        delete :destroy, params: { id: question }
+        delete :destroy, params: { id: question }, format: :js
         expect(response).to redirect_to questions_path
       end
     end
@@ -133,11 +133,11 @@ RSpec.describe QuestionsController, type: :controller do
       before { sign_in(create(:user)) }
 
       it 'does not delete the question' do
-        expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
+        expect { delete :destroy, params: { id: question }, format: :js }.to_not change(Question, :count)
       end
 
       it 'have 403 status' do
-        delete :destroy, params: { id: question }
+        delete :destroy, params: { id: question }, format: :js
         expect(response).to have_http_status(403) 
       end
    
