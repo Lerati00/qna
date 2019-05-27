@@ -40,8 +40,8 @@ gem 'decent_exposure', '3.0.0'
 gem 'devise'
 gem 'jquery-rails'
 gem 'bootstrap', '~> 4.3.1'
-
-
+gem "aws-sdk-s3", require: false
+gem 'dotenv-rails', :groups => [:development, :test]
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
