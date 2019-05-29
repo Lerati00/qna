@@ -30,4 +30,5 @@
 /rubocop_pre_commit_hook.rb
 /.rubocop.yml
 
+npm-debug.log
 .env
