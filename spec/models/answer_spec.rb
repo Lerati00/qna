@@ -6,6 +6,10 @@ RSpec.describe Answer, type: :model do
 
   it { should validate_presence_of :body }
 
+  it 'have many attached files' do
+    expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+  end
+
   describe 'def set_best' do
     let(:author) { create(:user) }
     let(:question) { create(:question, author: author) }
@@ -25,5 +29,6 @@ RSpec.describe Answer, type: :model do
       expect(answer).to_not be_best
       expect(current_best_answer).to be_best
     end
+
   end
 end
