@@ -4,10 +4,21 @@
   = render @question.answers.order('answers.best DESC')
 
 = form_with model: [@question, @answer] do |f|
-  = f.label :body, 'Your answer'
-  = f.text_area :body
-  = f.label :files
-  = f.file_field :files, multiple: true
+  p
+    = f.label :body, 'Your answer'
+    = f.text_area :body
+  p
+    = f.label :files
+    = f.file_field :files, multiple: true
+  p Links:
+  p
+    = f.fields_for :links do |l|
+      p
+        = l.label :name, 'Link name'
+        = l.text_field :name
+      p
+        = l.label :url
+        = l.text_field :url
   = f.submit 'Create'
 
 .new-answer-errors

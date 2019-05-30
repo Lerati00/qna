@@ -8,6 +8,10 @@
       - if answer.files.attached?
         = render partial: 'shared/file', collection: answer.files
 
+    .links
+      - answer.links.each do |link|
+        p= link_to link.name, link.url
+
     - if current_user&.author_of?(answer.question) 
       p= link_to 'Make the best', best_answer_path(answer), method: :patch, remote: true, class: 'best-answer-link', data: { answer_id: answer.id }
       
@@ -16,9 +20,11 @@
       p= link_to 'Delete Answer', answer_path(answer), method: :delete, remote: true
  
     = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }  do |f|
-      = f.label :body, 'Your answer'
-      = f.text_area :body
-      = f.label :files
-      = f.file_field :files, multiple: true, direct_upload: true
+      p
+        = f.label :body, 'Your answer'
+        = f.text_area :body
+      p
+        = f.label :files
+        = f.file_field :files, multiple: true, direct_upload: true
       = f.submit 'Save'
   div id="answer-errors-#{answer.id}"

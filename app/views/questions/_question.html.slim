@@ -6,6 +6,10 @@
     - if question.files.attached?
       = render partial: 'shared/file', collection: question.files
 
+  .links
+    - question.links.each do |link|
+      p= link_to link.name, link.url
+
   - if current_user&.author_of?(question)
     p= link_to 'Edit', '#', class: 'edit-question-link'
     p= link_to 'Delete', question_path(question), method: :delete, data: { confirm: 'Are you sure?' }
