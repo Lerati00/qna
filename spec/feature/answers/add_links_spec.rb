@@ -8,6 +8,7 @@ feature 'User can add links to answer', %q{
 
   given(:user) { create(:user) }
   given(:question) { create(:question, author: user) }
+  given(:simple_urls) { ['https://www.google.com/', 'https://opendedup.org/odd/'] }
   given(:gist_url) { 'https://github.com/thinknetica/qna/blob/8_nested_forms_and_polymoprphic/spec/features/question/add_links_spec.rb' }
 
   scenario 'User adds link when asks answer', js: true do
@@ -16,13 +17,22 @@ feature 'User can add links to answer', %q{
 
     fill_in 'Your answer', with: 'text text text'
 
-    fill_in 'Link name', with: 'My gist'
-    fill_in 'Url', with: gist_url
+    click_on 'Add link'
+    click_on 'Add link'
+
+    nested_fields = all('div.nested-fields')
+
+    nested_fields.each.with_index do |context, index|
+      within context do
+        fill_in 'Link name', with: 'My link'
+        fill_in 'Url', with: simple_urls[index]
+      end
+    end
 
     click_on 'Create'
 
     within '.answers' do
-      expect(page).to have_link 'My gist', href: gist_url
+      simple_urls.each { |url| expect(page).to have_link 'My link', href: url }
     end
   end
 
