@@ -8,9 +8,8 @@ feature 'User can add links to question', %q{
 
   given(:user) { create(:user) }
   given(:simple_urls) { ['https://www.google.com/', 'https://opendedup.org/odd/'] }
-  given(:gist_url) { 'https://github.com/thinknetica/qna/blob/8_nested_forms_and_polymoprphic/spec/features/question/add_links_spec.rb' }
-
-  scenario 'User adds links when asks question', js: true do
+  given(:gist_url) { 'https://gist.github.com/Lerati00/46f87d2c01b664f6c33955469894b40c' }
+  background do
     sign_in(user)
     visit new_question_path
 
@@ -18,6 +17,9 @@ feature 'User can add links to question', %q{
     fill_in 'Body', with: 'text text text'
 
     click_on 'Add link'
+  end
+
+  scenario 'User adds links when asks question', js: true do
     click_on 'Add link'
 
     nested_fields = all('div.nested-fields')
@@ -32,6 +34,16 @@ feature 'User can add links to question', %q{
     click_on 'Ask'
 
     simple_urls.each { |url| expect(page).to have_link 'My link', href: url }
+  end
+
+  scenario 'User adds gist link when asks question', js: true do
+    fill_in 'Link name', with: 'My gist'
+    fill_in 'Url', with: gist_url
+
+    click_on 'Ask'
+
+    expect(page).to have_link 'My gist', href: gist_url
+    expect(page).to have_content 'My gists content'
   end
 
 end
