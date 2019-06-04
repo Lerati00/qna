@@ -1,6 +1,7 @@
 .question
   = render @question
 .answers
+  h3 Answers
   = render @question.answers.order('answers.best DESC')
 
 = form_with model: [@question, @answer] do |f|

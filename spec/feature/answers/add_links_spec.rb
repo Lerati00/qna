@@ -39,7 +39,7 @@ feature 'User can add links to answer', %q{
     end
   end
 
-  scenario 'User adds list link when write answer', js: true do
+  scenario 'User adds gist link when write answer', js: true do
     fill_in 'Link name', with: 'My gist'
     fill_in 'Url', with: gist_url
 

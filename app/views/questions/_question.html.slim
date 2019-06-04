@@ -6,15 +6,17 @@
     - if question.files.attached?
       = render partial: 'shared/file', collection: question.files
 
-  .links
+  .links-list
     - question.links.each do |link|
-      - if is_gist?(link) 
-        - get_gist_files(link).each do |file|
-          = link_to link.name, link.url
-          p= file[1].filename
-          p= file[1].content
-      - else
+      .div id='link-#{link.id}'
         p= link_to link.name, link.url
+        - if current_user&.author_of?(question)
+          p= link_to 'Delete link', link_path(link.id), method: :delete, remote: true
+        - if gist?(link) 
+          - get_gist_files(link).each do |file|
+            p= file[1].filename
+            p= file[1].content
+        
 
   - if current_user&.author_of?(question)
     p= link_to 'Edit', '#', class: 'edit-question-link'
@@ -29,6 +31,11 @@
     p
       = f.label :files
       = f.file_field :files, multiple: true, direct_upload: true
+    p Links
+    = f.fields_for :links do |l|
+    .links
+      = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
+
     p= f.submit 'Save'
   .question-errors
     = render 'shared/errors', resource: @question

@@ -9,6 +9,7 @@ feature 'User can add links to question', %q{
   given(:user) { create(:user) }
   given(:simple_urls) { ['https://www.google.com/', 'https://opendedup.org/odd/'] }
   given(:gist_url) { 'https://gist.github.com/Lerati00/46f87d2c01b664f6c33955469894b40c' }
+  
   background do
     sign_in(user)
     visit new_question_path
