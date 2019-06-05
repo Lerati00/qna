@@ -14,13 +14,13 @@ class QuestionsController < ApplicationController
   def new
     @question = Question.new
     @question.links.build
+    @question.build_reward
   end
 
   def edit; end
 
   def create
     @question = current_user.questions.new(question_params)
-
     if @question.save
       redirect_to @question, notice: 'Your question successfully created.'
     else
@@ -52,7 +52,8 @@ class QuestionsController < ApplicationController
       :title,
       :body,
       files: [],
-      links_attributes: %i[id name url _destroy]
+      links_attributes: %i[id name url _destroy],
+      reward_attributes: %i[title image]
     )
   end
 end
