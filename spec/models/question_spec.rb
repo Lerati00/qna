@@ -17,4 +17,18 @@ RSpec.describe Question, type: :model do
   it 'have many attached files' do
     expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
+
+  describe 'def reward?' do
+    let(:author) { create(:user) }
+    let(:question) { create(:question, :with_reward, author: author) }
+    let(:question_not_reward) { create(:question,  author: author) }
+
+    it 'true if question have reward' do
+      expect(question).to be_reward
+    end
+
+    it 'false if question not have reward' do
+      expect(question_not_reward).to_not be_reward
+    end
+  end
 end

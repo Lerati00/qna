@@ -20,7 +20,10 @@ class AnswersController < ApplicationController
 
   def best
     @question = @answer.question
-    @answer.set_best if current_user.author_of?(@question)
+    if current_user.author_of?(@question)
+      @answer.set_best
+      @answer.author.rewards << @question.reward if @question.reward?
+    end
   end
 
   def destroy

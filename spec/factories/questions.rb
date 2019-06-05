@@ -15,6 +15,10 @@ FactoryBot.define do
       files { fixture_file_upload(Rails.root.join('spec', 'rails_helper.rb'), 'rails_helper.rb') }
     end
 
+    trait :with_reward do
+      reward { create(:reward, :for_question) }
+    end
+
     trait :invalid do
       title { nil }
     end
