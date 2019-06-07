@@ -15,7 +15,7 @@ RSpec.describe Answer, type: :model do
 
   describe 'def set_best' do
     let(:author) { create(:user) }
-    let(:question) { create(:question, author: author) }
+    let(:question) { create(:question, :with_reward, author: author) }
     let(:current_best_answer) { create(:answer, question: question, author: author) }
     let(:answer) { create(:answer, question: question, author: author)}
 
@@ -33,5 +33,9 @@ RSpec.describe Answer, type: :model do
       expect(current_best_answer).to be_best
     end
 
+    it 'assign the award to the author of the answer' do
+      expect(question.reward).to_not eq nil
+      expect(author.rewards[0]).to eq question.reward
+    end
   end
 end

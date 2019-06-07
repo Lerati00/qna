@@ -22,7 +22,6 @@ class AnswersController < ApplicationController
     @question = @answer.question
     if current_user.author_of?(@question)
       @answer.set_best
-      @answer.author.rewards << @question.reward if @question.reward?
     end
   end
 
