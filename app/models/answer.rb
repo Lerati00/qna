@@ -16,9 +16,9 @@ class Answer < ApplicationRecord
     transaction do
       best_answer.update!(best: false) if best_answer
       update!(best: true)
-    end
 
-    reward = question.reward
-    author.rewards << reward unless reward.nil?
+      reward = question.reward
+      author.rewards << reward unless reward.nil?
+    end
   end
 end
