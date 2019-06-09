@@ -9,6 +9,7 @@ feature 'User can edit his answer', %q{
   given!(:author) { create(:user) }
   given!(:question) { create(:question, author: author) }
   given!(:answer) { create(:answer, question: question, author: author) }
+  given(:gist_url) { 'https://gist.github.com/Lerati00/46f87d2c01b664f6c33955469894b40c' }
 
   scenario 'Unauthenticated user can not edit  answer' do 
     visit question_path(question)
@@ -46,6 +47,21 @@ feature 'User can edit his answer', %q{
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
       end 
+    end
+
+    scenario 'edit answer with attached link', js: true do
+      within '.answers' do
+        click_on 'Edit'
+        fill_in 'Your answer', with: 'edited answer'
+        click_on 'Add link'
+
+        fill_in 'Link name', with: 'My gist'
+        fill_in 'Url', with: gist_url
+
+        click_on 'Save'
+
+        expect(page).to have_link 'My gist'
+      end
     end
 
     scenario 'with error', js: true do

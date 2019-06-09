@@ -20,7 +20,9 @@ class AnswersController < ApplicationController
 
   def best
     @question = @answer.question
-    @answer.set_best if current_user.author_of?(@question)
+    if current_user.author_of?(@question)
+      @answer.set_best
+    end
   end
 
   def destroy
@@ -39,6 +41,10 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, files: [])
+    params.require(:answer).permit(
+      :body,
+      files: [],
+      links_attributes: %i[id name url _destroy]
+    )
   end
 end

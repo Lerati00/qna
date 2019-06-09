@@ -3,6 +3,7 @@
     = link_to "Qna", root_path , class: "navbar-brand"
     .d-flex.d-flex-row
       - if user_signed_in?
+        = link_to 'Rewards', rewards_path, class: 'container navbar-item'
         = current_user.email
         = link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'navbar-item'
       - else

@@ -3,6 +3,9 @@ require 'rails_helper'
 RSpec.describe Answer, type: :model do
   it { should belong_to(:question) }
   it { should belong_to(:author).class_name('User') }
+  it { should have_many(:links).dependent(:destroy) }
+
+  it { should accept_nested_attributes_for :links }
 
   it { should validate_presence_of :body }
 
@@ -12,7 +15,7 @@ RSpec.describe Answer, type: :model do
 
   describe 'def set_best' do
     let(:author) { create(:user) }
-    let(:question) { create(:question, author: author) }
+    let(:question) { create(:question, :with_reward, author: author) }
     let(:current_best_answer) { create(:answer, question: question, author: author) }
     let(:answer) { create(:answer, question: question, author: author)}
 
@@ -30,5 +33,9 @@ RSpec.describe Answer, type: :model do
       expect(current_best_answer).to be_best
     end
 
+    it 'assign the award to the author of the answer' do
+      expect(question.reward).to_not eq nil
+      expect(author.rewards[0]).to eq question.reward
+    end
   end
 end

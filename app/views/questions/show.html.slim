@@ -1,13 +1,21 @@
 .question
   = render @question
 .answers
+  h3 Answers
   = render @question.answers.order('answers.best DESC')
 
 = form_with model: [@question, @answer] do |f|
-  = f.label :body, 'Your answer'
-  = f.text_area :body
-  = f.label :files
-  = f.file_field :files, multiple: true
+  p
+    = f.label :body, 'Your answer'
+    = f.text_area :body
+  p
+    = f.label :files
+    = f.file_field :files, multiple: true
+  p Links:
+  p
+    = f.fields_for :links do |l|
+    .links
+      = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
   = f.submit 'Create'
 
 .new-answer-errors
