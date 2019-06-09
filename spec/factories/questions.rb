@@ -6,6 +6,7 @@ FactoryBot.define do
   factory :question do
     title
     body { "MyText" }
+    author { create(:user) }
 
     trait :with_link do
       links { create_list(:link, 1, :for_question)}

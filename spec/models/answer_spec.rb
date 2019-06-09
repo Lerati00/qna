@@ -19,23 +19,25 @@ RSpec.describe Answer, type: :model do
     let(:current_best_answer) { create(:answer, question: question, author: author) }
     let(:answer) { create(:answer, question: question, author: author)}
 
-    before { answer.set_best }
+    context do
+      before {  answer.set_best }
 
-    it 'the answer is the best' do
-      expect(answer).to be_best
-    end
+      it 'the answer is the best' do
+        expect(answer).to be_best
+      end
 
-    it 'there is only one best answer' do
-      current_best_answer.set_best
-      answer.reload
+      it 'there is only one best answer' do
+        current_best_answer.set_best
+        answer.reload
       
-      expect(answer).to_not be_best
-      expect(current_best_answer).to be_best
+        expect(answer).to_not be_best
+        expect(current_best_answer).to be_best
+      end
     end
 
-    it 'assign the award to the author of the answer' do
+    it 'assign the reward to the author of the answer' do
       expect(question.reward).to_not eq nil
-      expect(author.rewards[0]).to eq question.reward
+      expect { answer.set_best }.to change(author.rewards, :count).by(1)
     end
   end
 end
