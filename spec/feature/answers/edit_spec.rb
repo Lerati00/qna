@@ -59,8 +59,8 @@ feature 'User can edit his answer', %q{
         fill_in 'Url', with: gist_url
 
         click_on 'Save'
-
-        expect(page).to have_link 'My gist'
+        expect(page).to have_link 'My gist', href: gist_url
+        expect(page).to have_content 'My gists content'
       end
     end
 

@@ -5,5 +5,11 @@ $(document).on('turbolinks:load', function(){
       var answerId = $(this).data('answerId');
       console.log(answerId);
       $('form#edit-answer-' + answerId).removeClass('hidden');
-  })
+  });
+
+  $('.answers').on('ajax:success', '.rating', function(e) {
+    var result = e.detail[0];
+    $('#answer-' + result.answer.id + ' .score').text(result.answer.score);
+  });
+
 });
