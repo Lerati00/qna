@@ -2,6 +2,10 @@
   h1= question.title
   p= question.body
 
+  .rating
+    p.score= question.score
+    = render "shared/vote", resource: question
+
   .files
     - if question.files.attached?
       = render partial: 'shared/file', collection: question.files

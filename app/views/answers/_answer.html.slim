@@ -4,6 +4,10 @@
         b= '(Best)'
     p= answer.body
 
+    .rating
+      p.score= answer.score
+      = render "shared/vote", resource: answer
+
     .files
       - if answer.files.attached?
         = render partial: 'shared/file', collection: answer.files

@@ -1,4 +1,6 @@
 class AnswersController < ApplicationController
+  include Voted
+  
   before_action :authenticate_user!
   before_action :load_question, only: :create
   before_action :load_answer, only: %i[update best]
@@ -20,9 +22,7 @@ class AnswersController < ApplicationController
 
   def best
     @question = @answer.question
-    if current_user.author_of?(@question)
-      @answer.set_best
-    end
+    @answer.set_best if current_user.author_of?(@question)
   end
 
   def destroy
