@@ -1,5 +1,5 @@
 .question
-  = render @question
+  = render partial: 'question_card', locals: { question: @question }
 .answers
   h3 Answers
   = render @question.answers.order('answers.best DESC')
