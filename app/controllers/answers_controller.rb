@@ -5,6 +5,8 @@ class AnswersController < ApplicationController
   before_action :load_question, only: :create
   before_action :load_answer, only: %i[update best]
 
+  after_action :publish_answer, only: %i[create]
+
   def create
     if user_signed_in?
       @answer = @question.answers.new(answer_params)
@@ -45,6 +47,18 @@ class AnswersController < ApplicationController
       :body,
       files: [],
       links_attributes: %i[id name url _destroy]
+    )
+  end
+
+  def publish_answer
+    return if @answer.errors.any?
+
+    ActionCable.server.broadcast(
+      "question_#{@answer.question.id}",
+      ApplicationController.render(
+        partial: 'answers/answer_channel',
+        locals: {answer: @answer}
+      )
     )
   end
 end

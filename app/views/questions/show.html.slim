@@ -2,7 +2,9 @@
   = render partial: 'question_card', locals: { question: @question }
 .answers
   h3 Answers
-  = render @question.answers.order('answers.best DESC')
+  = render @question.answers.order(best: :desc).order(:created_at)
+
+.new-answer-errors
 
 = form_with model: [@question, @answer] do |f|
   p
@@ -18,4 +20,3 @@
       = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
   = f.submit 'Create'
 
-.new-answer-errors
