@@ -1,4 +1,9 @@
 <% if @comment.persisted? %>
-  $('.comments').append('<%= j render @comment %>');
-  $('.question textarea#comment_body').val('');
+  <% if @comment.commentable.is_a?(Question) %>
+    $('.question .comments').append('<%= j render @comment %>');
+    $('.question textarea#comment_body').val('');
+  <% else %>
+    $('.answers #answer-<%= @comment.commentable_id %> .comments').append('<%= j render @comment %>');
+    $('.answers #answer-<%= @comment.commentable_id %> textarea#comment_body').val(''); 
+  <% end %>
 <% end %>

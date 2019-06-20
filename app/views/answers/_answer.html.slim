@@ -44,4 +44,8 @@
           = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
 
       = f.submit 'Save'
-  div id="answer-errors-#{answer.id}"
+    div id="answer-errors-#{answer.id}"
+    .comments
+      h4 Comments
+      = render answer.comments.order(:created_at)
+    = render partial: 'comments/form', locals: { resource: answer }

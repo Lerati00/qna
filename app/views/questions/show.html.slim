@@ -3,7 +3,6 @@
   .comments
     h4 Comments
     = render @question.comments.order(:created_at)
-  h4 New comment
   = render partial: 'comments/form', locals: { resource: @question }
 .answers
   h3 Answers

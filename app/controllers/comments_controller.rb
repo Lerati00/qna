@@ -15,15 +15,18 @@ class CommentsController < ApplicationController
   end
 
   def set_commentable
-    commentable_id = params["#{params[:commentable].downcase}_id".to_sym]
+    commentable_id = params["#{params[:commentable].downcase}_id"]
     @commentable = params[:commentable].classify.constantize.find(commentable_id)
   end
 
   def publish_comment
     return if @comment.errors.any?
 
+    resource = @comment.commentable
+    question_id = resource.is_a?(Question) ? resource.id : resource.question.id
+    
     ActionCable.server.broadcast(
-      "comments_question_#{@comment.commentable.id}",
+      "comments_question_#{question_id}",
       ApplicationController.render(
         partial: 'comments/comment_channel',
         locals: { comment: @comment }
