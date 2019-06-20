@@ -6,7 +6,7 @@ App.cable.subscriptions.create('AnswersChannel', {
   },
   received(data) {
     answer = $.parseJSON(data)
-    if (gon.current_user != answer.author_id) {
+    if (gon.current_user_id != answer.author_id) {
       new_answer = JST['templates/answer']({answer: answer});
       console.log(new_answer);
     
