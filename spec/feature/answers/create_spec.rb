@@ -6,6 +6,34 @@ feature 'User can create answer', %q{
 
   given(:user) { create(:user) }
   given(:question) { create(:question, author: user)}
+
+  describe 'In multiple sessions', js: true do
+    scenario 'Answer appears on another browser' do
+      Capybara.using_session('user') do
+        sign_in user
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        fill_in 'Your answer', with: 'Answer Body Text'
+
+        click_on 'Create'   
+        within '.answers' do
+          expect(page).to have_content 'Answer Body Text'
+        end  
+      end
+
+      Capybara.using_session('guest') do
+        within '.answers' do
+          expect(page).to have_content 'Answer Body Text'
+        end
+      end
+    end
+  end
  
   describe 'Authenticated user', js: true do
     background do

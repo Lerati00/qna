@@ -3,11 +3,21 @@ $(document).on('turbolinks:load', function(){
       e.preventDefault();
       $(this).hide();
       $('.edit-question').removeClass('hidden');
-  })
+  });
 
   $('.question .rating').on('ajax:success', function(e) {
     var result = e.detail[0];
     console.log(result.question.score)
     $('.question .score').text(result.question.score)
-  })
+  });
+
+  App.cable.subscriptions.create('QuestionsChannel', {
+    connected() {
+      console.log('Connected');
+      this.perform('follow');
+    },
+    received(data) {
+      $('.questions-list').append(data);
+    }
+  });
 });

@@ -1,0 +1,43 @@
+div id="answer-#{@answer.id}"
+  p= @answer.body
+
+  .rating
+    p= @answer.score
+    -if gon.current_user_id != @answer.author_id
+      a data-method='patch' data-remote='true' data-type='json' href="#{@answer.vote_up_path}"
+        | Vote up
+      a data-method='patch' data-remote='true' data-type='json' href="#{@answer.vote_down_path}"
+        | Vote down
+      a data-method='patch' data-remote='true' data-type='json' href="#{@answer.vote_cancel_path}"
+        | Vote cancel
+
+  .files
+    -if @answer.files.length > 0
+      -for file in @answer.files
+        p id="file-#{file.id}"
+          a href="#{file.url}"
+            = file.name
+          -if gon.current_user_id == @answer.author_id
+            a data-method='delete' data-remote='true' href="#{file.file_delete_path}"
+              | Delete
+
+  .links-list
+    -if @answer.links.length > 0
+      -for link in @answer.links
+        div id='link-#{link.id}'
+          a href="#{link.url}"
+            = link.name
+          -if gon.current_user_id == @answer.author_id
+            a data-method='delete' data-remote='true' href="#{link.link_delete_path}"
+              | Delete
+          -if link.is_gist 
+            -for file in link.gist_files 
+              p= file.name
+              p= file.body
+
+  -if gon.current_user_id == gon.question_author_id
+    p
+      a data-method='patch' data-remote='true' data-answer-id="#{@answer.id}" href="#{@answer.set_best_path}" class='best-answer-link'
+        | Make the best
+
+        

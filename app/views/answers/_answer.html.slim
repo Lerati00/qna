@@ -1,7 +1,7 @@
 - if answer.persisted?
   div id="answer-#{answer.id}"
     - if answer.best?
-        b= '(Best)'
+      b= '(Best)'
     p= answer.body
 
     .rating
@@ -14,7 +14,7 @@
 
     .links-list
       - answer.links.each do |link|
-        .div id='link-#{link.id}'
+        div id='link-#{link.id}'
           = link_to link.name, link.url
           - if current_user&.author_of?(answer)
             p= link_to 'Delete link', link_path(link), method: :delete, remote: true
@@ -31,7 +31,7 @@
       p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
       p= link_to 'Delete Answer', answer_path(answer), method: :delete, remote: true
  
-    = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }  do |f|
+    = form_with model: answer, class: 'hidden edit-answer', html: { id: "edit-answer-#{answer.id}" }  do |f|
       p
         = f.label :body, 'Your answer'
         = f.text_area :body
@@ -44,4 +44,8 @@
           = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
 
       = f.submit 'Save'
-  div id="answer-errors-#{answer.id}"
+    div id="answer-errors-#{answer.id}"
+    .comments
+      h4 Comments
+      = render answer.comments.order(:created_at)
+    = render partial: 'comments/form', locals: { resource: answer }

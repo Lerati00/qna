@@ -1,0 +1,44 @@
+  h1= question.title
+  p= question.body
+
+  .rating
+    p.score= question.score
+    = render "shared/vote", resource: question
+
+  .files
+    - if question.files.attached?
+      = render partial: 'shared/file', collection: question.files
+
+  .links-list
+    - question.links.each do |link|
+      .div id='link-#{link.id}'
+        p= link_to link.name, link.url
+        - if current_user&.author_of?(question)
+          p= link_to 'Delete link', link_path(link.id), method: :delete, remote: true
+        - if gist?(link) 
+          - get_gist_files(link).each do |file|
+            p= file[1].filename
+            p= file[1].content
+        
+
+  - if current_user&.author_of?(question)
+    p= link_to 'Edit', '#', class: 'edit-question-link'
+    p= link_to 'Delete', question_path(question), method: :delete, data: { confirm: 'Are you sure?' }
+  = form_with model: question, class: 'edit-question hidden' do |f|
+    p
+      = f.label :title
+      = f.text_area :title
+    p
+      = f.label :body, 'Your question'
+      = f.text_area :body
+    p
+      = f.label :files
+      = f.file_field :files, multiple: true, direct_upload: true
+    p Links
+    = f.fields_for :links do |l|
+    .links
+      = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
+
+    p= f.submit 'Save'
+  .question-errors
+    = render 'shared/errors', resource: @question
