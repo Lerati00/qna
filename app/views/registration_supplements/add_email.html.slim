@@ -1,0 +1,7 @@
+h1
+  |Add Email
+= form_with model: User.new, url: users_create_authorization_path, local: true do |f|
+  p
+    = f.label :email
+    = f.text_field :email
+  = f.submit 'Continue'

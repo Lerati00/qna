@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   root to: 'questions#index'
 
+  get 'users/add_email', to: 'registration_supplements#add_email'
+  post 'users/create_authorization', to: 'registration_supplements#create_authorization' 
+
   concern :commentable do
     resources :comments, only: :create
   end
