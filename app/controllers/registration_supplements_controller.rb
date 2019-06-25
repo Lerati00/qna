@@ -3,8 +3,8 @@ class RegistrationSupplementsController < ApplicationController
   end
 
   def create_authorization
-    auth = OmniAuth::AuthHash.new(provider: session[:oauth_provider],
-                                  uid: session[:oauth_uid],
+    auth = OmniAuth::AuthHash.new(provider: session['devise.oauth_provider'],
+                                  uid: session['devise.oauth_uid'],
                                   info: { email: params[:user][:email] })
     @user = User.find_for_oauth(auth)
 

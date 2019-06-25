@@ -9,7 +9,7 @@ class Services::FindForOauth
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization
 
-    return nil unless email = auth.info[:email]
+    return nil unless auth.info[:email]
 
     email = auth.info[:email]
     user = User.where(email: email).first
