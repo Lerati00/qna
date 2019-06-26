@@ -1,6 +1,8 @@
 class RegistrationSupplementsController < ApplicationController
-  def add_email
-  end
+  skip_authorization_check
+  skip_authorize_resource
+
+  def add_email; end
 
   def create_authorization
     auth = OmniAuth::AuthHash.new(provider: session['devise.oauth_provider'],
