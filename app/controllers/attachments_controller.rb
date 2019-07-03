@@ -1,6 +1,9 @@
 class AttachmentsController < ApplicationController
   before_action :authenticate_user!
 
+  skip_authorization_check
+  skip_authorize_resource
+
   expose(:attachment) {ActiveStorage::Attachment.find(params[:id])}
   expose(:record) { attachment.record }
 
@@ -10,5 +13,4 @@ class AttachmentsController < ApplicationController
       attachment.purge
     end
   end
-
 end

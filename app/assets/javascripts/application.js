@@ -18,6 +18,7 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require cocoon
+//= require skim
 //= require_tree .
 
 var App = App || {};

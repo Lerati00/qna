@@ -29,6 +29,7 @@
       
     - if current_user&.author_of?(answer)
       p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+    - if can? :destroy, answer
       p= link_to 'Delete Answer', answer_path(answer), method: :delete, remote: true
  
     = form_with model: answer, class: 'hidden edit-answer', html: { id: "edit-answer-#{answer.id}" }  do |f|
@@ -48,4 +49,5 @@
     .comments
       h4 Comments
       = render answer.comments.order(:created_at)
-    = render partial: 'comments/form', locals: { resource: answer }
+    - if can? :create, Comment
+      = render partial: 'comments/form', locals: { resource: answer }
