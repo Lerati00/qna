@@ -16,7 +16,7 @@ FactoryBot.define do
       files { fixture_file_upload(Rails.root.join('spec', 'rails_helper.rb'), 'rails_helper.rb') }
     end
 
-    trait :with_comments do
+    trait :with_comment do
       comments { create_list(:comment, 1, :for_question) }
     end
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Profiles API', type: :request do
+describe 'Questions API', type: :request do
   let(:headers) { { 'CONTENT_TYPE' => 'application/json',
                     'ACCEPT' => 'application/json' } }
   let(:access_token) { create(:access_token) }
@@ -51,7 +51,7 @@ describe 'Profiles API', type: :request do
         end
 
         it 'returns all public fields' do
-          %w[id body author_id created_at updated_at].each do |attr|
+          %w[id body created_at updated_at].each do |attr|
             expect(answer_response[attr]).to eq answer.send(attr).as_json
           end
         end
@@ -60,7 +60,7 @@ describe 'Profiles API', type: :request do
   end
 
   describe 'GET /api/v1/questions/:id' do
-    let!(:question) { create(:question, :with_link, :with_file, :with_comments)}
+    let!(:question) { create(:question, :with_link, :with_file, :with_comment)}
     let(:api_path) { "/api/v1/questions/#{question.id}" }
 
     it_behaves_like 'API Authorizable' do
