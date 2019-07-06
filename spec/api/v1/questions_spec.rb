@@ -168,4 +168,57 @@ describe 'Questions API', type: :request do
     end
   end
 
+  describe 'PATCH /api/v1/questions/:id' do
+    let(:question) { create(:question) }
+    let(:api_path) { "/api/v1/questions/#{question.id}" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :patch }
+      let(:headers) { nil }
+    end
+
+    context 'authorized' do
+      it 'return 200 status' do
+        patch api_path, params: { id: question.id, question: { title: 'New title' }, access_token: access_token.token }
+        expect(response).to be_successful
+      end
+
+      it 'update question' do
+        patch api_path, params: { id: question.id, question: { title: 'New title' }, access_token: access_token.token }
+        question.reload
+        expect(question.title).to eq 'New title'
+      end
+
+      it 'return Bad Request if no question params sended' do
+        patch api_path, params: { id: question.id, access_token: access_token.token }
+        expect(response.status).to eq 400
+      end
+
+      it 'return Bad Request if bad question params sended' do
+        patch api_path, params: { id: question.id, question: { title: '' }, access_token: access_token.token }
+        expect(response.status).to eq 400
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/questions/:id' do
+    let!(:question) { create(:question) }
+    let(:api_path) { "/api/v1/questions/#{question.id}" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :delete }
+      let(:headers) { nil }
+    end
+
+    context 'authorized' do
+      it 'return 200 status' do
+        delete api_path, params: { id: question.id, access_token: access_token.token }
+        expect(response).to be_successful
+      end
+      
+      it 'deleted question' do
+        expect{ delete api_path, params: { id: question.id, access_token: access_token.token } }.to change(Question, :count).by(-1)
+      end
+    end
+  end
 end

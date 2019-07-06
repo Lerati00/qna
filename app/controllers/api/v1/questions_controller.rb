@@ -7,11 +7,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   end
 
   def show
-    if question
-      render json: question
-    else
-      head :not_found
-    end
+    render json: question
   end
 
   def create
@@ -23,6 +19,20 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     end
   rescue ActionController::ParameterMissing
     head :bad_request
+  end
+
+  def update
+    if question.update(question_params)
+      render json: question
+    else
+      head :bad_request
+    end  
+  rescue  ActionController::ParameterMissing
+    head :bad_request
+  end
+
+  def destroy
+    head :ok if question.destroy
   end
 
   private
