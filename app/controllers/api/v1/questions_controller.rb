@@ -26,7 +26,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
       render json: question
     else
       head :bad_request
-    end  
+    end
   rescue  ActionController::ParameterMissing
     head :bad_request
   end
