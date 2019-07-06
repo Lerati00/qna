@@ -62,30 +62,18 @@ describe 'Answers API', type: :request do
       end
 
       describe 'links' do
-        let(:link_response) { answer_response['links'].first }
-
-        it 'return list of links' do
-          expect(answer_response['links'].size).to eq answer.links.size
-        end
-
-        it 'return all public fields' do
-          %w[id name url created_at updated_at].each do |attr|
-            expect(link_response[attr]).to eq answer.links.first.send(attr).as_json
-          end
+        it_behaves_like 'API Listable' do
+          let(:list_response) { answer_response['links'] }
+          let(:list) { answer.links }
+          let(:fields) { %w[id name url created_at updated_at] }
         end
       end
 
       describe 'comments' do
-        let(:comment_response) { answer_response['comments'].first }
-
-        it 'return list of comments' do
-          expect(answer_response['comments'].size).to eq answer.comments.size
-        end
-
-        it 'return all public fields' do
-          %w[id body user_id created_at updated_at].each do |attr|
-            expect(comment_response[attr]).to eq answer.comments.first.send(attr).as_json
-          end
+        it_behaves_like 'API Listable' do
+          let(:list_response) { answer_response['comments'] }
+          let(:list) { answer.comments }
+          let(:fields) { %w[id body user_id created_at updated_at] }
         end
       end
 
@@ -97,7 +85,7 @@ describe 'Answers API', type: :request do
           expect(answer_response['files'].size).to eq answer.files.size
         end
 
-        it 'returns public fields' do
+        it 'returns  public fields' do
           expect(file_response['id']).to eq file.id
           expect(file_response['filename']).to eq file.filename.to_s
           expect(file_response['url']).to eq url_for(file)

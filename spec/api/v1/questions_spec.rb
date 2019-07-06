@@ -85,29 +85,18 @@ describe 'Questions API', type: :request do
       end
 
       describe 'links' do
-        let(:link_response) { question_response['links'].first }
-        it 'return list of links' do
-          expect(question_response['links'].size).to eq question.links.size
-        end
-
-        it 'return all public fields' do
-          %w[id name url created_at updated_at].each do |attr|
-            expect(link_response[attr]).to eq question.links.first.send(attr).as_json
-          end
+        it_behaves_like 'API Listable' do
+          let(:list_response) { question_response['links'] }
+          let(:list) { question.links }
+          let(:fields) { %w[id name url created_at updated_at] }
         end
       end
 
       describe 'comments' do
-        let(:comment_response) { question_response['comments'].first }
-
-        it 'return list of comments' do
-          expect(question_response['comments'].size).to eq question.comments.size
-        end
-
-        it 'return all public fields' do
-          %w[id body user_id created_at updated_at].each do |attr|
-            expect(comment_response[attr]).to eq question.comments.first.send(attr).as_json
-          end
+        it_behaves_like 'API Listable' do
+          let(:list_response) { question_response['comments'] }
+          let(:list) { question.comments }
+          let(:fields) { %w[id body user_id created_at updated_at] }
         end
       end
 
@@ -156,7 +145,7 @@ describe 'Questions API', type: :request do
 
   describe 'DELETE /api/v1/questions/:id' do
      it_behaves_like 'API Deletable' do
-      let!(:resource) { create(:question) }
+      let(:resource) { create(:question) }
       let(:api_path) { "/api/v1/questions/#{resource.id}" }
     end
   end

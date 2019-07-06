@@ -48,8 +48,8 @@ feature 'User can add links to answer', %q{
     fill_in 'Url', with: gist_url
 
     click_on 'Create'
-
-    within '.answers .links-list' do
+  
+    within '.links-list' do
       expect(page).to have_link 'My gist', href: gist_url
       expect(page).to have_content 'My gists content'
     end

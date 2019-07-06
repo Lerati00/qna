@@ -34,8 +34,7 @@ class Api::V1::AnswersController < Api::V1::BaseController
   end
 
   def destroy
-    answer.destroy
-    head :ok
+    head :ok if answer.destroy
   end
 
   private
