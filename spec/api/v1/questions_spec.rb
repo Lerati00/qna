@@ -131,7 +131,41 @@ describe 'Questions API', type: :request do
           expect(file_response['url']).to eq url_for(file)
         end
       end
-
     end
   end
+
+  describe 'POST /api/v1/questions' do
+    let(:api_path) { "/api/v1/questions" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :post }
+      let(:headers) { nil }
+    end
+
+    context 'authorized' do
+      let(:access_token) { create(:access_token) }
+
+      it 'return 200 status' do
+        post api_path, params: { question: attributes_for(:question), access_token: access_token.token }
+        expect(response).to be_successful
+      end
+
+      it 'creates new question' do
+        expect { post api_path, params: { question: attributes_for(:question), access_token: access_token.token }}.to change(Question, :count).by(1)
+      end
+
+      it 'return Bad Request if no question params sended' do
+        post api_path, params: { access_token: access_token.token }
+        expect(response.status).to eq 400
+      end
+
+      it 'return Bad Request if bad question params sended' do
+        bad_params = { title: '12312' }
+
+        post api_path, params: { question: bad_params, access_token: access_token.token }
+        expect(response.status).to eq 400
+      end
+    end
+  end
+
 end

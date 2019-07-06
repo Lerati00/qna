@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   check_authorization unless: :devise_controller?
   authorize_resource unless: :devise_controller?
 
+  protect_from_forgery prepend: true
+
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
       format.json { head :forbidden, content_type: 'text/html' }
