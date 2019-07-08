@@ -15,9 +15,9 @@ class Api::V1::AnswersController < Api::V1::BaseController
     answer = question.answers.new(answer_params)
     answer.author = current_resource_onwer
     if answer.save
-      render json: answer, location: api_v1_answer_url(answer)
+      render json: answer
     else
-      head :bad_request
+      head 422
     end
   rescue ActionController::ParameterMissing
     head :bad_request
@@ -25,9 +25,9 @@ class Api::V1::AnswersController < Api::V1::BaseController
 
   def update
     if answer.update(answer_params)
-      render json: answer, location: api_v1_answer_url(answer)
+      render json: answer
     else
-      head :bad_request
+      head 422
     end
   rescue ActionController::ParameterMissing
     head :bad_request

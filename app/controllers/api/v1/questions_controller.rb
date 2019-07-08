@@ -13,9 +13,9 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   def create
     question = current_resource_onwer.questions.new(question_params)
     if question.save
-      render json: question, location: api_v1_question_url(question)
+      render json: question
     else
-      head :bad_request
+      head 422
     end
   rescue ActionController::ParameterMissing
     head :bad_request
@@ -25,9 +25,9 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     if question.update(question_params)
       render json: question
     else
-      head :bad_request
+      head 422
     end
-  rescue  ActionController::ParameterMissing
+  rescue ActionController::ParameterMissing
     head :bad_request
   end
 

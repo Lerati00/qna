@@ -1,10 +1,8 @@
 class Api::V1::BaseController < ActionController::Base
   before_action :doorkeeper_authorize!
   protect_from_forgery prepend: true
-  check_authorization
-  authorize_resource 
 
-  rescue_from ActiveRecord::RecordNotFound do |e|
+  rescue_from CanCan::AccessDenied do |exception|
     head :bad_request
   end
 

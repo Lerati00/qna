@@ -7,7 +7,7 @@ shared_examples_for 'API Bad Request' do
 
     it 'return Bad Request if bad resource params sended' do
       send(method, api_path, params: bad_params)
-      expect(response.status).to eq 400
+      expect(response.status).to eq 422
     end 
   end
 end

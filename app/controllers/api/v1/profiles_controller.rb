@@ -7,7 +7,7 @@ class Api::V1::ProfilesController < Api::V1::BaseController
   end
 
   def index
-    @users = User.all.where('id != ?', current_resource_onwer.id)
+    @users = User.all.where.not(id: current_resource_onwer)
     render json: @users
     authorize! :read, @users
   end
