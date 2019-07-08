@@ -31,7 +31,7 @@ class Ability
     end
 
     can %i[vote_up vote_down vote_cancel], [Answer, Question] do |object|
-      user.author_of?(object)
+      !user.author_of?(object)
     end
   end
 

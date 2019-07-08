@@ -6,7 +6,7 @@ FactoryBot.define do
   factory :question do
     title
     body { "MyText" }
-    author { create(:user)}
+    author { create(:user) }
 
     trait :with_link do
       links { create_list(:link, 1, :for_question)}
@@ -14,6 +14,10 @@ FactoryBot.define do
 
     trait :with_file do
       files { fixture_file_upload(Rails.root.join('spec', 'rails_helper.rb'), 'rails_helper.rb') }
+    end
+
+    trait :with_comment do
+      comments { create_list(:comment, 1, :for_question) }
     end
 
     trait :with_reward do

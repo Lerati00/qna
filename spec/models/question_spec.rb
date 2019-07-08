@@ -2,7 +2,7 @@ require 'rails_helper'
 require_relative 'concerns/votable_spec'
 
 RSpec.describe Question, type: :model do
-  it {should belong_to(:author).class_name('User') }
+  it { should belong_to(:author).class_name('User') }
   
   it { should have_one(:reward).dependent(:destroy) }
 
