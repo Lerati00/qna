@@ -15,4 +15,12 @@ class Question < ApplicationRecord
   has_many_attached :files
 
   validates :title, :body, presence: true
+
+  after_create :calculate_reputation
+
+  private
+
+  def calculate_reputation
+    ReputationJob.perform_later(self)
+  end
 end
