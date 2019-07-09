@@ -1,11 +1,12 @@
 class AnswersController < ApplicationController
   include Voted
-  
+
   before_action :authenticate_user!
   before_action :load_question, only: :create
   before_action :load_answer, only: %i[update best]
 
   after_action :publish_answer, only: %i[create]
+  after_action :send_emails, only: %i[create]
 
   def create
     if user_signed_in?
@@ -50,6 +51,10 @@ class AnswersController < ApplicationController
     )
   end
 
+  def send_emails
+    MailingToSubscribersJob.perform_later(@answer)
+  end
+
   def publish_answer
     return if @answer.errors.any?
 
@@ -57,7 +62,7 @@ class AnswersController < ApplicationController
       "question_#{@answer.question.id}",
       ApplicationController.render(
         partial: 'answers/answer_channel',
-        locals: {answer: @answer}
+        locals: { answer: @answer }
       )
     )
   end

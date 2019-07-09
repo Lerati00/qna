@@ -1,6 +1,7 @@
 class Question < ApplicationRecord
   include Votable
   include Commentable
+  include Subscribable
 
   has_one :reward, dependent: :destroy
 
