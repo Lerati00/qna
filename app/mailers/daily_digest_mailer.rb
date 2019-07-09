@@ -1,7 +1,7 @@
 class DailyDigestMailer < ApplicationMailer
   def digest(user)
-    @greeting = 'Hi'
-    
+    @questions = Question.last_day
+
     mail to: user.email
   end
 end

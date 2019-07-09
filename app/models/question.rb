@@ -18,6 +18,8 @@ class Question < ApplicationRecord
 
   after_create :calculate_reputation
 
+  scope :last_day, -> { where('created_at > ?', 1.days.ago) }
+
   private
 
   def calculate_reputation
