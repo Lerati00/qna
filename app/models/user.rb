@@ -11,8 +11,6 @@ class User < ApplicationRecord
   has_many :authorizations, dependent: :destroy
 
   has_many :subscriptions, dependent: :destroy
-  has_many :subscibed_on_questions, through: :subscriptions,
-           source: :subscribable, source_type: 'Question'
 
   def author_of?(resource)
     id == resource.author_id

@@ -19,7 +19,14 @@
           - get_gist_files(link).each do |file|
             p= file[1].filename
             p= file[1].content
-        
+
+  .subscription
+    - if can? :create, Subscription
+      - if question.subscribed?(current_user)
+        = link_to 'Unsubscribe', subscription_path(question.subscriptions.find_by(user: current_user)), method: :delete, remote: true
+      - else
+        = link_to 'Subscribe', subscriptions_path(question_id: question.id), method: :post, remote: true
+      
 
   - if current_user&.author_of?(question)
     p= link_to 'Edit', '#', class: 'edit-question-link'

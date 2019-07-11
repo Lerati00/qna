@@ -22,8 +22,9 @@ class Ability
 
   def user_abilities
     guest_abilities
-    can :create, [Question, Answer, Comment]
+    can :create, [Question, Answer, Comment, Subscription]
     can %i[update destroy], [Question, Answer], { author_id: user.id }
+    can :destroy, [Subscription], { user_id: user.id }
     can :best, Answer, question: { author_id: user.id }
 
     can :destroy, [Link] do |object|
@@ -33,6 +34,7 @@ class Ability
     can %i[vote_up vote_down vote_cancel], [Answer, Question] do |object|
       !user.author_of?(object)
     end
+
   end
 
   def admin_abilities
