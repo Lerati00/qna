@@ -6,7 +6,6 @@ class AnswersController < ApplicationController
   before_action :load_answer, only: %i[update best]
 
   after_action :publish_answer, only: %i[create]
-  after_action :send_emails, only: %i[create]
 
   def create
     if user_signed_in?
@@ -49,10 +48,6 @@ class AnswersController < ApplicationController
       files: [],
       links_attributes: %i[id name url _destroy]
     )
-  end
-
-  def send_emails
-    MailingToSubscribersJob.perform_later(@answer)
   end
 
   def publish_answer

@@ -23,9 +23,9 @@ feature 'User can subscribe on question' do
         visit question_path(question)
       end
 
-      scenario 'subscribe to a question' do
+      scenario 'subscribe to a question', js: true do
         click_on 'Subscribe'
-        expect(page).to have_content 'You have subscribed to the question'
+        expect(page).to  have_link 'Unsubscribe'
       end
 
       scenario 'tries unsubscribe from the question' do
@@ -40,9 +40,9 @@ feature 'User can subscribe on question' do
         visit question_path(question)
       end
 
-      scenario 'Unsubscribe from a the question' do
+      scenario 'Unsubscribe from a the question', js: true do
         click_on 'Unsubscribe'
-        expect(page).to have_content 'You have unsubscribed from the question'
+        expect(page).to have_link 'Subscribe'
       end
 
       scenario 'tries subscribe to a question' do

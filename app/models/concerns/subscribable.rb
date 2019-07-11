@@ -9,4 +9,11 @@ module Subscribable
   def subscribed?(user)
     subscriptions.exists?(user: user)
   end
+
+  def subscribe(user)
+    if !subscribed?(user)
+      self.subscriptions.new(user: user)
+      self.save
+    end
+  end
 end

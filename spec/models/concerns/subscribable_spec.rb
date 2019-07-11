@@ -16,4 +16,15 @@ shared_examples_for 'subscribable' do
       expect(object.subscribed?(user)).to eq false
     end
   end
+
+  describe '#subscribe' do
+    it 'creates subscription if user is not subscribed' do
+      expect{ object.subscribe(user) }.to change(Subscription, :count).by(1)
+    end
+
+    it 'not creates subscription if user is subscribed' do
+      object.subscribe(user)
+      expect{ object.subscribe(user) }.to_not change(Subscription, :count)
+    end
+  end
 end

@@ -6,7 +6,7 @@ RSpec.describe Services::MailingToSubscribers do
   let(:users) { create_list(:user, 3) }
 
   it 'sends mail to all subscribed users' do
-    users.each { |user| question.subscriptions.create(user: user) }
+    users.each { |user| question.subscribe(user) }
     question.subscribers.each { |user| expect(SubscriptionMailer).to receive(:send_answer).with(answer, user).and_call_original }
     subject.send_emails(answer)
   end
