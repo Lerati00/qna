@@ -19,7 +19,9 @@
           - get_gist_files(link).each do |file|
             p= file[1].filename
             p= file[1].content
-        
+
+  .subscription
+    = render 'shared/subscribe', question: question
 
   - if current_user&.author_of?(question)
     p= link_to 'Edit', '#', class: 'edit-question-link'

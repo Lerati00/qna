@@ -1,0 +1,7 @@
+| List with new question:
+= "\n"
+- if @questions.count.zero?
+  | No new questions
+- else
+  - @questions.each_with_index do |question, index|
+    = "\n#{index + 1}) #{question.title}, url: #{question_url(question)}"

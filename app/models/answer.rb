@@ -13,6 +13,8 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true
 
+  after_create :send_emails
+
   def set_best
     best_answer = question.answers.find_by(best: true)
 
@@ -23,5 +25,11 @@ class Answer < ApplicationRecord
       reward = question.reward
       author.rewards << reward unless reward.nil?
     end
+  end
+
+  private
+
+  def send_emails
+    MailingToSubscribersJob.perform_later(self)
   end
 end

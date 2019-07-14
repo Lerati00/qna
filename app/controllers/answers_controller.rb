@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   include Voted
-  
+
   before_action :authenticate_user!
   before_action :load_question, only: :create
   before_action :load_answer, only: %i[update best]
@@ -57,7 +57,7 @@ class AnswersController < ApplicationController
       "question_#{@answer.question.id}",
       ApplicationController.render(
         partial: 'answers/answer_channel',
-        locals: {answer: @answer}
+        locals: { answer: @answer }
       )
     )
   end

@@ -1,0 +1,8 @@
+h1 List with new ones questions:
+- if @questions.count.zero?
+  p
+    | No new questions
+- else
+  ol
+    - @questions.each do |question|
+      li= link_to question.title, question_url(question)
