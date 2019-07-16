@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   get 'users/add_email', to: 'registration_supplements#add_email'
   post 'users/create_authorization', to: 'registration_supplements#create_authorization'
+  get '/search', to: 'searches#search', as: 'search'
 
   concern :commentable do
     resources :comments, only: :create
