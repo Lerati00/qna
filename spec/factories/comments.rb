@@ -1,6 +1,9 @@
 FactoryBot.define do
   factory :comment do
-    body { 'My comment' }
+    sequence :body do |n|
+      "MyCommentText#{n}"
+    end 
+
     user { create(:user) }
 
     trait :invalid do
