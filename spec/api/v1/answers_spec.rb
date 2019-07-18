@@ -16,7 +16,7 @@ describe 'Answers API', type: :request do
 
     context 'authorized' do
       let!(:answers) { create_list(:answer, 2, question: question) }
-      let(:answer_response) { json['answers'].first }
+      let(:answer_response) { json['answers'].last }
       let(:answer) { answers.first }
 
       before { get api_path, params: { access_token: access_token.token }, headers: headers }

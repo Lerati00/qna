@@ -14,13 +14,13 @@ module Subscribable
 
   def subscribe(user)
     if !subscribed?(user)
-      self.subscriptions.create(user: user)
+      subscriptions.create(user: user)
     end
   end
 
   private
 
   def subscribe_author
-    self.subscribe(author)
+    subscribe(author)
   end
 end
