@@ -2,7 +2,7 @@ require 'rails_helper'
 
 shared_examples_for 'subscribable' do
   let(:model) { described_class }
-  let(:object) { create(model.to_s.underscore.to_sym)}
+  let!(:object) { create(model.to_s.underscore.to_sym)}
   let(:user) { create(:user) }
 
   describe '#subscribed?' do

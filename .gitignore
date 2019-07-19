@@ -30,5 +30,8 @@
 /rubocop_pre_commit_hook.rb
 /.rubocop.yml
 
+/config/*.sphinx.conf
+/db/sphinx
+
 npm-debug.log
 .env
