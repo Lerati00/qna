@@ -3,7 +3,7 @@ class SearchesController < ApplicationController
   skip_authorize_resource
 
   def search
-    @results = Services::Search.new(search_params.to_h).result
+    @results = Services::Search.new(search_params.to_h).call
   end
 
   private

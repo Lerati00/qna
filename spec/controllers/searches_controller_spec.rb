@@ -11,7 +11,7 @@ RSpec.describe SearchesController, type: :controller do
     end
 
     it 'calls Services::Search#result' do
-      expect(service).to receive(:result)
+      expect(service).to receive(:call)
       get :search, params: { search: params }
     end
   end

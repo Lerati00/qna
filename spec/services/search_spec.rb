@@ -8,13 +8,13 @@ RSpec.describe Services::Search do
     context 'search in all records' do
       it 'return all records' do
         expect(ThinkingSphinx).to receive(:search).with('', { classes: nil })
-        subject.result
+        subject.call
       end
 
       it 'return al with search string' do
         params[:search_string] = 'new string'
         expect(ThinkingSphinx).to receive(:search).with('new string', { classes: nil })
-        subject.result
+        subject.call
       end
     end
 
@@ -23,13 +23,13 @@ RSpec.describe Services::Search do
 
       it 'return all questions' do
         expect(ThinkingSphinx).to receive(:search).with('', { classes: [Question] })
-        subject.result
+        subject.call
       end
 
       it 'return questions with search string' do
         params[:search_string] = 'new string'
         expect(ThinkingSphinx).to receive(:search).with('new string', { classes: [Question] })
-        subject.result
+        subject.call
       end
     end
 
@@ -38,13 +38,13 @@ RSpec.describe Services::Search do
 
       it 'return all answers' do
         expect(ThinkingSphinx).to receive(:search).with('', { classes: [Answer] })
-        subject.result
+        subject.call
       end
 
       it 'return answers with search string' do
         params[:search_string] = 'new string'
         expect(ThinkingSphinx).to receive(:search).with('new string', { classes: [Answer] })
-        subject.result
+        subject.call
       end
     end
 
@@ -53,13 +53,13 @@ RSpec.describe Services::Search do
 
       it 'return all comments' do
         expect(ThinkingSphinx).to receive(:search).with('', { classes: [Comment] })
-        subject.result
+        subject.call
       end
 
       it 'return comments with search string' do
         params[:search_string] = 'new string'
         expect(ThinkingSphinx).to receive(:search).with('new string', { classes: [Comment] })
-        subject.result
+        subject.call
       end
     end
 
@@ -68,13 +68,13 @@ RSpec.describe Services::Search do
 
       it 'return all users' do
         expect(ThinkingSphinx).to receive(:search).with('', { classes: [User] })
-        subject.result
+        subject.call
       end
 
       it 'return users with search string' do
         params[:search_string] = 'new string'
         expect(ThinkingSphinx).to receive(:search).with('new string', { classes: [User] })
-        subject.result
+        subject.call
       end
     end
 

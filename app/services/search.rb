@@ -7,10 +7,12 @@ class Services::Search
     user: User
   }
 
-  attr_reader :result
-
   def initialize(params)
-    @result = ThinkingSphinx.search params[:search_string], classes: get_classes(params[:search_type])
+    @params = params
+  end
+  
+  def call
+    ThinkingSphinx.search @params[:search_string], classes: get_classes(@params[:search_type])
   end
 
   private
