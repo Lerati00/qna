@@ -1,4 +1,5 @@
 require 'sidekiq/web'
+Rails.application.routes.default_url_options[:protocol] = 'http'
 
 Rails.application.routes.draw do
   authenticate :user, lambda { |u| u.admin? } do
