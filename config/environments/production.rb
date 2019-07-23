@@ -1,3 +1,5 @@
+Rails.application.routes.default_url_options[:protocol] = 'https'
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -28,7 +30,6 @@ Rails.application.configure do
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
-  config.force_ssl = true
 
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
@@ -67,10 +68,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   #Mail config
-  config.action_mailer.default_url_options = {
-    host: '68.183.3.73',
-    protocol: 'https'
-  }
+  config.action_mailer.default_url_options = { host: '68.183.3.73' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address:              'smtp.gmail.com',
