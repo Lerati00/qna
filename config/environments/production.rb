@@ -66,7 +66,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   #Mail config
-  config.action_mailer.default_url_options = { host: 'tn-qna.tk', protocol: 'https'}
+  config.action_mailer.default_url_options = { host: 'tn-qna.tk' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address:              'smtp.gmail.com',
