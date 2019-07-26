@@ -268,7 +268,10 @@ Devise.setup do |config|
   config.omniauth :facebook,
                   Rails.application.credentials[Rails.env.to_sym][:facebook][:app_id],
                   Rails.application.credentials[Rails.env.to_sym][:facebook][:app_secret],
-                  token_params: { parse: :json }
+                  client_options: {
+                    site: 'https://graph.facebook.com/v3.0',
+                    authorize_url: "https://www.facebook.com/v3.0/dialog/oauth"
+                  }
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
