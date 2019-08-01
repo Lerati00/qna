@@ -1,28 +1,29 @@
-.question
-  = render partial: 'question_card', locals: { question: @question }
-  .comments
-    h4 Comments
-    = render @question.comments.order(:created_at)
-  - if can? :create, Comment
-    = render partial: 'comments/form', locals: { resource: @question }
-.answers
-  h3 Answers
-  = render @question.answers.order(best: :desc).order(:created_at)
+- cache @question do
+  .question
+    = render partial: 'question_card', locals: { question: @question }
+    .comments
+      h4 Comments
+      = render @question.comments.order(:created_at)
+    - if can? :create, Comment
+      = render partial: 'comments/form', locals: { resource: @question }
+  .answers
+    h3 Answers
+    = render @question.answers.order(best: :desc).order(:created_at)
 
-.new-answer-errors
+  .new-answer-errors
 
-- if can? :create, Answer
-  h4 New answer
-  = form_with model: [@question, @answer] do |f|
-    p
-      = f.label :body, 'Your answer'
-      = f.text_area :body
-    p
-      = f.label :files
-      = f.file_field :files, multiple: true
-    p Links:
-    p
-      = f.fields_for :links do |l|
-      .links
-        = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
-    = f.submit 'Create'
+  - if can? :create, Answer
+    h4 New answer
+    = form_with model: [@question, @answer] do |f|
+      p
+        = f.label :body, 'Your answer'
+        = f.text_area :body
+      p
+        = f.label :files
+        = f.file_field :files, multiple: true
+      p Links:
+      p
+        = f.fields_for :links do |l|
+        .links
+          = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
+      = f.submit 'Create'
