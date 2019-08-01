@@ -20,6 +20,8 @@ module Qna
     config.action_cable.disable_request_forgery_protection = false
     config.autoload_paths += [config.root.join('app')]
 
+    config.cache_store = :redis_store, 'redis://localhost:6379/0/cache', { expires_in: 100.minutes }
+
     config.generators do |g|
       g.test_framework :rspec,
                        helper_specs:  false,

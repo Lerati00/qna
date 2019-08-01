@@ -3,4 +3,5 @@ p= 'List of questions'
   p= link_to 'Ask question', new_question_path
 
 .questions-list
-  = render @questions
+  - cache collection_cache_key_for :question
+    = render @questions

@@ -1,53 +1,54 @@
-- if answer.persisted?
-  div id="answer-#{answer.id}"
-    - if answer.best?
-      b= '(Best)'
-    p= answer.body
+- cache answer do
+  - if answer.persisted?
+    div id="answer-#{answer.id}"
+      - if answer.best?
+        b= '(Best)'
+      p= answer.body
 
-    .rating
-      p.score= answer.score
-      = render "shared/vote", resource: answer
+      .rating
+        p.score= answer.score
+        = render "shared/vote", resource: answer
 
-    .files
-      - if answer.files.attached?
-        = render partial: 'shared/file', collection: answer.files
+      .files
+        - if answer.files.attached?
+          = render partial: 'shared/file', collection: answer.files
 
-    .links-list
-      - answer.links.each do |link|
-        div id='link-#{link.id}'
-          = link_to link.name, link.url
-          - if current_user&.author_of?(answer)
-            p= link_to 'Delete link', link_path(link), method: :delete, remote: true
-          - if gist?(link) 
-            - get_gist_files(link).each do |file|
-              p= file[1].filename
-              p= file[1].content
+      .links-list
+        - answer.links.each do |link|
+          div id='link-#{link.id}'
+            = link_to link.name, link.url
+            - if current_user&.author_of?(answer)
+              p= link_to 'Delete link', link_path(link), method: :delete, remote: true
+            - if gist?(link) 
+              - get_gist_files(link).each do |file|
+                p= file[1].filename
+                p= file[1].content
 
 
-    - if current_user&.author_of?(answer.question) 
-      p= link_to 'Make the best', best_answer_path(answer), method: :patch, remote: true, class: 'best-answer-link', data: { answer_id: answer.id }
-      
-    - if current_user&.author_of?(answer)
-      p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-    - if can? :destroy, answer
-      p= link_to 'Delete Answer', answer_path(answer), method: :delete, remote: true
- 
-    = form_with model: answer, class: 'hidden edit-answer', html: { id: "edit-answer-#{answer.id}" }  do |f|
-      p
-        = f.label :body, 'Your answer'
-        = f.text_area :body
-      p
-        = f.label :files
-        = f.file_field :files, multiple: true, direct_upload: true
-        p Links
-        = f.fields_for :links do |l|
-        .links
-          = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
+      - if current_user&.author_of?(answer.question) 
+        p= link_to 'Make the best', best_answer_path(answer), method: :patch, remote: true, class: 'best-answer-link', data: { answer_id: answer.id }
+        
+      - if current_user&.author_of?(answer)
+        p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+      - if can? :destroy, answer
+        p= link_to 'Delete Answer', answer_path(answer), method: :delete, remote: true
+  
+      = form_with model: answer, class: 'hidden edit-answer', html: { id: "edit-answer-#{answer.id}" }  do |f|
+        p
+          = f.label :body, 'Your answer'
+          = f.text_area :body
+        p
+          = f.label :files
+          = f.file_field :files, multiple: true, direct_upload: true
+          p Links
+          = f.fields_for :links do |l|
+          .links
+            = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
 
-      = f.submit 'Save'
-    div id="answer-errors-#{answer.id}"
-    .comments
-      h4 Comments
-      = render answer.comments.order(:created_at)
-    - if can? :create, Comment
-      = render partial: 'comments/form', locals: { resource: answer }
+        = f.submit 'Save'
+      div id="answer-errors-#{answer.id}"
+      .comments
+        h4 Comments
+        = render answer.comments.order(:created_at)
+      - if can? :create, Comment
+        = render partial: 'comments/form', locals: { resource: answer }
